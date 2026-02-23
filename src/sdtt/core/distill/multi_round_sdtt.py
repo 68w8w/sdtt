@@ -250,7 +250,9 @@ class MultiRoundSDTT(DiffusionCore, PyTorchModelHubMixin, AncestralSampler, Anal
 
     def to(self, device):
         DiffusionCore.to(self, device=device)
-        self.teacher[0].to(device=device)
+        if self.teacher is not None:
+            self.teacher[0].to(device=device)
+        return self
 
     @torch.no_grad
     def _teacher_logprobs_on_mask(self, xt, t_start):
