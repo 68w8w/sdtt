@@ -75,6 +75,11 @@ def load_from_local(model_dir):
     # only for distillation training.
     model = MultiRoundSDTT(config, tokenizer, verbose=False)
     model.load_state_dict(ckpt)
+    # Reinitialize EMA from the loaded (distilled) weights.
+    # Without this, EMA still holds the teacher weights from
+    # prepare_teacher_and_student(), and store_ema() would
+    # overwrite the backbone with stale teacher weights.
+    model.init_ema()
     return model
 
 

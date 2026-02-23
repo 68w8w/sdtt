@@ -141,6 +141,7 @@ class MultiRoundSDTT(DiffusionCore, PyTorchModelHubMixin, AncestralSampler, Anal
 
         model = cls(config, tokenizer, verbose=False)
         model.load_state_dict(ckpt)
+        model.init_ema()
         return model
      
     def push_to_hub(self, repo, revision="main", private=True):
